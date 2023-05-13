@@ -1,17 +1,19 @@
+import { Box, SxProps } from "@mui/material";
 import logo from "../assets/logo-title-transparent.png";
 
 type LogoTitleProps = {
   width: string;
   height: string;
+  sx?: SxProps;
 };
 
 export default function LogoTitle(props: LogoTitleProps) {
-  const { width, height } = props;
+  const { width, height, sx } = props;
 
   return (
-    <div>
+    <Box sx={sx}>
       <img src={logo} alt="Logo" width={width} height={height} />
-    </div>
+    </Box>
   );
 }
 

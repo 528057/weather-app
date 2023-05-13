@@ -6,8 +6,15 @@ import theme from "./theme";
 import { RootRoute, Route, Router, RouterProvider } from "@tanstack/router";
 import RegisterPage from "./pages/RegisterPage";
 import NotFound from "./pages/NotFound";
+import WelcomePage from "./pages/WelcomePage";
 
 const rootRoute = new RootRoute();
+
+const indexRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: '/',
+	component: WelcomePage
+});
 
 const loginRoute = new Route({
 	getParentRoute: () => rootRoute,
@@ -28,7 +35,8 @@ const notFoundRoute = new Route({
 });
 
 const routeTree = rootRoute.addChildren([
-	loginRoute,
+	indexRoute,
+  loginRoute,
   registerRoute,
 	notFoundRoute
 ]);
