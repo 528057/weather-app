@@ -12,13 +12,18 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import LogoTitle from "./LogoTitle";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Link } from "@mui/material";
 import SearchBar from "./SearchBar";
+import ButtonLink from "./ButtonLink";
 
-const pages = ["Login", "Register"];
 const settings = ["Profile", "Logout"];
 
 export default function WeatherToolbar() {
+  const pages = new Map([
+    ["Login", "/login"],
+    ["Register", "/register"],
+  ]);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -42,14 +47,18 @@ export default function WeatherToolbar() {
   };
 
   return (
-    <AppBar position="fixed" color="transparent" style={{ top: 0, width: "100%" }}>
+    <AppBar
+      position="fixed"
+      color="transparent"
+      style={{ top: 0, width: "100%" }}
+    >
       <Container>
         <Toolbar disableGutters>
           <LogoTitle
             width="150px"
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
-          <SearchBar/>
+          <SearchBar />
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -82,23 +91,26 @@ export default function WeatherToolbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+              {Array.from(pages.entries()).map(([page, redirect]) => (
+                <Link href={redirect}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
+            {Array.from(pages.entries()).map(([page, redirect]) => (
+              <ButtonLink
+                to={redirect}
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "black", display: "block" }}
               >
                 {page}
-              </Button>
+              </ButtonLink>
             ))}
           </Box>
 
