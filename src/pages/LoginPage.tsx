@@ -14,6 +14,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import { useState } from "react";
 import Copyright from "../components/Copyright";
 import LogoTitle from "../components/LogoTitle";
+import usePageTitle from "../hooks/usePageTitle";
 
 export default function LoginPage() {
   const t = useTranslation();
@@ -25,6 +26,8 @@ export default function LoginPage() {
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  usePageTitle(t("login.sign_in"));
 
   const handleRememberBeChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -124,7 +127,7 @@ export default function LoginPage() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {t("login.no_account")}
               </Link>
             </Grid>

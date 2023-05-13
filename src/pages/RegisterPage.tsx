@@ -12,6 +12,7 @@ import { useState } from "react";
 import Copyright from "../components/Copyright";
 import LogoTitle from "../components/LogoTitle";
 import { isValidEmail } from "../utils/Validators";
+import usePageTitle from "../hooks/usePageTitle";
 
 export default function RegisterPage() {
   const t = useTranslation();
@@ -29,6 +30,8 @@ export default function RegisterPage() {
     password: "",
     passwordConfirmation: "",
   });
+
+  usePageTitle(t("login.sign_up"));
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
