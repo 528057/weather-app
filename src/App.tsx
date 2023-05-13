@@ -1,14 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { LanguageProvider } from "./hooks/useTranslation";
 import LoginPage from "./pages/LoginPage";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
 
 const App = () => (
-  <LanguageProvider>
-    <LoginPage/>
-  </LanguageProvider>
+  <ThemeProvider theme={theme}>
+    <LanguageProvider>
+      <LoginPage />
+    </LanguageProvider>
+  </ThemeProvider>
 );
 
 export default App;
