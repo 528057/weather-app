@@ -12,8 +12,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import logo from "../assets/logo-title-transparent.png";
+import { useTranslation } from "../hooks/useTranslation";
 
 function Copyright(props: any) {
+  const t = useTranslation();
+  
   return (
     <Typography
       variant="body2"
@@ -22,7 +25,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      MyWeath
+      {t('app.title')}
+      {" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -32,6 +36,8 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function LoginPage() {
+  const t = useTranslation();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,7 +61,7 @@ export default function LoginPage() {
         >
           <img src={logo} alt="Logo" width="80%" height="100%" />
           <Typography component="h1" variant="h5">
-            Sign in
+            {t("login.sign_in")}
           </Typography>
           <Box
             component="form"
@@ -68,7 +74,7 @@ export default function LoginPage() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t("login.email")}
               name="email"
               autoComplete="email"
               autoFocus
@@ -78,14 +84,14 @@ export default function LoginPage() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("login.password")}
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={t("login.remember_me")}
             />
             <Button
               type="submit"
@@ -93,17 +99,17 @@ export default function LoginPage() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {t("login.sign_in")}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  {t("login.forgot_password")}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {t("login.no_account")}
                 </Link>
               </Grid>
             </Grid>
