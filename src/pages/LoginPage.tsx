@@ -10,33 +10,45 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import logo from "../assets/logo-title-transparent.png";
 import { useTranslation } from "../hooks/useTranslation";
 import { useState } from "react";
-
-function Copyright(props: any) {
-  const t = useTranslation();
-
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      {t("app.title")} {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../components/Copyright";
+import LogoTitle from "../components/LogoTitle";
 
 export default function LoginPage() {
   const t = useTranslation();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleRememberBeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFormData({ ...formData, rememberMe: event.target.checked });
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const { email, password } = formData;
+
+    if (!email) {
+      setEmailError(t("login.required_field"));
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError(t("login.required_field"));
+    } else {
+      setPasswordError("");
+    }
+
     console.log(formData);
   };
 
@@ -55,7 +67,7 @@ export default function LoginPage() {
           alignItems: "center",
         }}
       >
-        <img src={logo} alt="Logo" width="80%" height="100%" />
+        <LogoTitle />
         <Typography component="h1" variant="h5">
           {t("login.sign_in")}
         </Typography>
@@ -70,6 +82,8 @@ export default function LoginPage() {
             autoComplete="email"
             autoFocus
             onChange={handleChange}
+            error={!!emailError}
+            helperText={emailError}
           />
           <TextField
             margin="normal"
@@ -81,9 +95,18 @@ export default function LoginPage() {
             id="password"
             autoComplete="current-password"
             onChange={handleChange}
+            error={!!passwordError}
+            helperText={passwordError}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            id="rememberMe"
+            control={
+              <Checkbox
+                value={formData.rememberMe}
+                color="primary"
+                onChange={handleRememberBeChange}
+              />
+            }
             label={t("login.remember_me")}
           />
           <Button
