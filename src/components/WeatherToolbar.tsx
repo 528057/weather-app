@@ -1,150 +1,156 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import LogoTitle from "./LogoTitle";
-import { CssBaseline, Link } from "@mui/material";
 import SearchBar from "./SearchBar";
 import ButtonLink from "./ButtonLink";
+import { Link } from "@tanstack/react-router";
+import useLoggedInUser from "../hooks/useLoggedInUser";
+import LanguageSwitch from "./LanguageSwitch";
+import LocalizeMessage from "./LocalizeMessage";
+import { Button } from "@mui/material";
+import { signOut } from "../utils/firebase";
+import { useState } from "react";
 
-const settings = ["Profile", "Logout"];
+const AuthNav: React.FC = () => (
+    <>
+        <ButtonLink
+            to={"/login"}
+            key={"Login"}
+            sx={{
+                my: 2,
+                color: "black",
+                display: "block",
+            }}
+        >
+            <LocalizeMessage id="login.sign_in" />
+        </ButtonLink>
+        <ButtonLink
+            to={"/register"}
+            key={"Register"}
+            sx={{
+                my: 2,
+                color: "black",
+                display: "block",
+            }}
+        >
+            <LocalizeMessage id="login.sign_up" />
+        </ButtonLink>
+    </>
+);
 
-export default function WeatherToolbar() {
-  const pages = new Map([
-    ["Login", "/login"],
-    ["Register", "/register"],
-  ]);
+const UserNav: React.FC = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  return (
-    <AppBar
-      position="fixed"
-      color="transparent"
-      style={{ top: 0, width: "100%" }}
-    >
-      <Container>
-        <Toolbar disableGutters>
-          <LogoTitle
-            width="150px"
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-          />
-          <SearchBar />
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <LogoTitle width="130px" />
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {Array.from(pages.entries()).map(([page, redirect]) => (
-                <Link href={redirect}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
-              ))}
-            </Menu>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {Array.from(pages.entries()).map(([page, redirect]) => (
-              <ButtonLink
-                to={redirect}
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "black", display: "block" }}
-              >
-                {page}
-              </ButtonLink>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+    return (
+        <>
+            <Tooltip title="Open settings" onClick={handleClick}>
+                <IconButton sx={{ p: 0 }}>
+                    <Avatar
+                        alt="Remy Sharp"
+                        src="/static/images/avatar/2.jpg"
+                    />
+                </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+                sx={{ mt: "45px" }}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                onClick={handleClose}
+                open={open}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                }}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem>
+                    <Button onClick={signOut}>
+                        <Typography textAlign="center">
+                            <LocalizeMessage id="login.sign_out" />
+                        </Typography>
+                    </Button>
                 </MenuItem>
-              ))}
             </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
-}
+        </>
+    );
+};
+
+const OtherNav: React.FC = () => (
+    <>
+        <ButtonLink
+            to={"/login"}
+            key={"Login"}
+            sx={{
+                my: 2,
+                color: "black",
+                display: "block",
+            }}
+        >
+            <LocalizeMessage id="login.sign_in" />
+        </ButtonLink>
+    </>
+);
+
+const WeatherToolbar = () => {
+    const user = useLoggedInUser();
+
+    return (
+        <AppBar
+            position="fixed"
+            color="transparent"
+            style={{ top: 0, width: "100%" }}
+        >
+            <Container>
+                <Toolbar disableGutters>
+                    <Link to="/">
+                        <LogoTitle
+                            width="150px"
+                            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+                        />
+                    </Link>
+                    <SearchBar />
+
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: "none", md: "flex" },
+                        }}
+                    >
+                        {user ? <OtherNav /> : <AuthNav />}
+                    </Box>
+
+                    {user && (
+                        <Box sx={{ flexGrow: 0 }}>
+                            <UserNav />
+                        </Box>
+                    )}
+                    <Box sx={{ ml: 2 }}>
+                        <LanguageSwitch />
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar>
+    );
+};
+
+export default WeatherToolbar;
