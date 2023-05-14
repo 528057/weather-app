@@ -1,25 +1,102 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
+import {
+    Autocomplete,
+    AutocompleteChangeReason,
+    AutocompleteInputChangeReason,
+    CircularProgress,
+    TextField,
+} from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import React from "react";
+import usePlacesAutocomplete, {
+    getLatLng,
+    getGeocode,
+} from "use-places-autocomplete";
 
-export default function SearchBar() {
-  return (
-    <Paper
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '60%', margin:'0 20px'}}
-    >
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search place"
-        inputProps={{ 'aria-label': 'search google maps' }}
-      />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-    </Paper>
-  );
-}
+const SearchBar = () => {
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const {
+        setValue,
+        suggestions: { loading, data },
+        clearSuggestions,
+    } = usePlacesAutocomplete({
+        debounce: 300,
+    });
+
+    const onSearchChange = (
+        _event: React.SyntheticEvent<Element, Event>,
+        value: string,
+        reason: AutocompleteInputChangeReason
+    ) => {
+        if (reason === "input") {
+            setValue(value);
+        } else {
+            clearSuggestions();
+        }
+    };
+
+    const onValueSelect = (
+        event: React.SyntheticEvent<Element, Event>,
+        value: google.maps.places.AutocompletePrediction | null,
+        reason: AutocompleteChangeReason
+    ) => {
+        if (reason === "selectOption") {
+            getGeocode({ address: value?.description }).then((results) => {
+                const { lat, lng } = getLatLng(results[0]);
+                clearSuggestions();
+            });
+        }
+    };
+
+    return (
+        <Autocomplete
+            sx={{
+                p: "2px 4px",
+                display: "flex",
+                alignItems: "center",
+                width: "60%",
+                margin: "0 20px",
+            }}
+            open={open}
+            onOpen={() => {
+                setOpen(true);
+            }}
+            onClose={() => {
+                setOpen(false);
+            }}
+            isOptionEqualToValue={(option, value) =>
+                option.description === value.description
+            }
+            getOptionLabel={(option) => option.description}
+            options={data}
+            loading={loading}
+            onChange={onValueSelect}
+            onInputChange={onSearchChange}
+            renderInput={(params) => (
+                <>
+                    <TextField
+                        {...params}
+                        label="Search input"
+                        InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                                <>
+                                    {loading ? (
+                                        <CircularProgress
+                                            color="inherit"
+                                            size={20}
+                                        />
+                                    ) : null}
+                                    {params.InputProps.endAdornment}
+                                </>
+                            ),
+                        }}
+                    />
+                </>
+            )}
+        />
+    );
+};
+
+export default SearchBar;
