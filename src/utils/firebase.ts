@@ -11,7 +11,16 @@ import {
     updateProfile as updateProfileFirebase,
     indexedDBLocalPersistence,
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+    CollectionReference,
+    DocumentReference,
+    Timestamp,
+    collection,
+    deleteDoc,
+    doc,
+    getFirestore,
+    setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig: FirebaseOptions = {
     apiKey: "AIzaSyCiXrzm7uTRUP65jrAAoANqTwvHAT97mRI",
@@ -59,4 +68,35 @@ export const signOut = () => authSignOut(auth);
 export const onAuthChanged = (callback: (u: User | null) => void) =>
     onAuthStateChanged(auth, callback);
 
+export type Location = {
+    lat: number;
+    lng: number;
+    city: string;
+    createdAt: Timestamp;
+};
+
 const db = getFirestore();
+
+export const userSavedLocations = (userId: string) =>
+    collection(
+        db,
+        "users",
+        userId,
+        "favorites"
+    ) as CollectionReference<Location>;
+
+export const userSavedLocationDocument = (userId: string) =>
+    doc(userSavedLocations(userId)) as DocumentReference<Location>;
+
+export const addSavedLocation = async (userId: string, location: Location) =>
+    await setDoc(
+        doc(userSavedLocationDocument(userId), location.city),
+        location
+    );
+
+export const deleteSavedLocation = async (
+    userId: string,
+    location: Location
+) => {
+    await deleteDoc(doc(userSavedLocationDocument(userId), location.city));
+};

@@ -20,4 +20,6 @@ export default {
     "login.sign_out": "Sign out",
     "error.not_found": "Nenalezeno",
     "error.not_exist_msg": "Oops, vypadá to, že tato stránka neexistuje",
+    "weather.title": "Weather",
+    "saved-locations.title": "Saved locations",
 };

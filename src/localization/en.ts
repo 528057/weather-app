@@ -20,4 +20,6 @@ export default {
     "login.sign_out": "Sign out",
     "error.not_found": "Not found",
     "error.not_exist_msg": "Oops, looks like this page does not exist",
+    "weather.title": "Weather",
+    "saved-locations.title": "Saved locations",
 };
