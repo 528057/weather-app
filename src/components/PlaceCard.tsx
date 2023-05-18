@@ -1,19 +1,7 @@
-import {
-    Typography,
-    Card,
-    CardContent,
-    CardActions,
-    IconButton,
-    useTheme,
-} from "@mui/material";
+import { Typography, Card, CardContent, CardActions } from "@mui/material";
 import ButtonLink from "./ButtonLink";
-import {
-    Location,
-    addSavedLocation,
-    deleteSavedLocation,
-} from "../utils/firebase";
-import { Save } from "@mui/icons-material";
-import useLoggedInUser from "../hooks/useLoggedInUser";
+import { Location } from "../utils/firebase";
+import SaveIcon from "./SaveIcon";
 
 type FavouritePlaceProps = {
     location: Location;
@@ -21,18 +9,6 @@ type FavouritePlaceProps = {
 };
 
 const PlaceCard = ({ location, isSaved = false }: FavouritePlaceProps) => {
-    const theme = useTheme();
-    const user = useLoggedInUser();
-    const handleSaveClick = () => {
-        if (user?.uid) {
-            if (isSaved) {
-                deleteSavedLocation(user.uid, location);
-            } else {
-                addSavedLocation(user?.uid, location);
-            }
-        }
-    };
-
     return (
         <Card
             style={{
@@ -47,19 +23,7 @@ const PlaceCard = ({ location, isSaved = false }: FavouritePlaceProps) => {
             <CardContent>
                 <div>
                     <Typography variant="h6">{location.city}</Typography>
-                    <IconButton
-                        disabled={!user?.uid}
-                        onClick={handleSaveClick}
-                        color="primary"
-                    >
-                        <Save
-                            style={{
-                                color: isSaved
-                                    ? theme.palette.primary.main
-                                    : theme.palette.grey[500],
-                            }}
-                        />
-                    </IconButton>
+                    <SaveIcon isSaved={isSaved} location={location} />
                 </div>
                 <Typography variant="body1">
                     Latitude: {location.lat}
@@ -70,10 +34,10 @@ const PlaceCard = ({ location, isSaved = false }: FavouritePlaceProps) => {
             </CardContent>
             <CardActions>
                 <ButtonLink
-                    to="/weather/$lat/$lon/$city"
+                    to="/weather/$lat/$lng/$city"
                     params={{
                         lat: `${location.lat}`,
-                        lon: `${location.lng}`,
+                        lng: `${location.lng}`,
                         city: `${location.city}`,
                     }}
                     size="small"

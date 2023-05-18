@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-router";
 import RegisterPage from "./pages/RegisterPage";
 import NotFound from "./pages/NotFound";
-import WelcomePage from "./pages/WelcomePage";
+import Home from "./pages/Home";
 import { Container, CssBaseline } from "@mui/material";
 import WeatherToolbar from "./components/WeatherToolbar";
 import { AuthContextProvider } from "./hooks/useLoggedInUser";
@@ -35,7 +35,7 @@ const rootRoute = new RootRoute({
 const indexRoute = new Route({
     getParentRoute: () => rootRoute,
     path: "/",
-    component: WelcomePage,
+    component: Home,
 });
 
 const loginRoute = new Route({
@@ -58,7 +58,7 @@ const savedLocationsRoute = new Route({
 
 const locationWeatherRoute = new Route({
     getParentRoute: () => rootRoute,
-    path: "/weather/$lat/$lon/$city",
+    path: "/weather/$lat/$lng/$city",
     component: Weather,
 });
 

@@ -22,4 +22,6 @@ export default {
     "error.not_exist_msg": "Oops, looks like this page does not exist",
     "weather.title": "Weather",
     "saved-locations.title": "Saved locations",
+    "home.positionDenied": "Position denied",
+    loading: "Loading...",
 };

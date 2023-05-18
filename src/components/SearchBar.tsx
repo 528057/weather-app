@@ -8,13 +8,12 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import React from "react";
-import usePlacesAutocomplete, {
-    getLatLng,
-    getGeocode,
-} from "use-places-autocomplete";
+import usePlacesAutocomplete from "use-places-autocomplete";
+import useGetPositionFromApi from "../hooks/useGetPositionFromApi";
 
 const SearchBar = () => {
     const navigate = useNavigate();
+    const { onAddressSubmit } = useGetPositionFromApi();
     const [open, setOpen] = useState(false);
     const {
         setValue,
@@ -36,41 +35,22 @@ const SearchBar = () => {
         }
     };
 
-    const onValueSelect = (
-        event: React.SyntheticEvent<Element, Event>,
+    const onValueSelect = async (
+        _event: React.SyntheticEvent<Element, Event>,
         value: google.maps.places.AutocompletePrediction | null,
         reason: AutocompleteChangeReason
     ) => {
         if (reason === "selectOption") {
-            getGeocode({ address: value?.description }).then((results) => {
-                const regionName = results[0].address_components.find(
-                    (component) => {
-                        if (
-                            component.types.includes("locality") ||
-                            component.types.includes(
-                                "administrative_area_level_1"
-                            ) ||
-                            component.types.includes("country")
-                        ) {
-                            return component.long_name;
-                        }
-                        return null;
-                    }
-                )?.long_name;
-
-                const { lat, lng } = getLatLng(results[0]);
-
+            if (value?.description) {
+                const { city, lat, lng } = await onAddressSubmit({
+                    address: value.description,
+                });
                 navigate({
-                    to: "/weather/$lat/$lon/$city",
-                    params: {
-                        lat: `${lat}`,
-                        lon: `${lng}`,
-                        city: regionName ?? "",
-                    },
+                    to: "/weather/$lat/$lng/$city",
+                    params: { lat: `${lat}`, lng: `${lng}`, city: `${city}` },
                     replace: true,
                 });
-                clearSuggestions();
-            });
+            }
         }
     };
 
