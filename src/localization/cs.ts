@@ -25,5 +25,6 @@ export default {
     "saved-locations.title": "Saved locations",
     "forecast.next_7_days": "Předpověď pro dalších 7 dní",
     "today": "Dnes",
+    "signup.success": "Registrace proběhla v pořádku!",
     loading: "Načítání...",
 };

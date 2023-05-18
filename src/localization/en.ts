@@ -26,5 +26,6 @@ export default {
 
     "forecast.next_7_days": "Forecast for the next 7 days",
     "today": "Today",
+    "signup.success":"Registration successful!",
     loading: "Loading...",
 };
