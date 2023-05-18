@@ -8,7 +8,7 @@
 
 **Seminar group**: 02, 01
 
-The projet will be a weather app that displays current and upcoming weather conditions for any location. Users can search by name or ZIP code, and view details such as temperature, humidity, and more. The app could also allow users to login/signup and save the location which they want to check again.
+The project is focused on a weather app that displays any location's current and upcoming weather conditions. Users can search by name or ZIP code and view details such as temperature, humidity, etc. The app also allows users to login/signup and save the location they want to check again.
 
 ## Sign in page
 
