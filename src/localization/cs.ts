@@ -29,4 +29,5 @@ export default {
     "common.longitude": "zeměpisná délka",
     "place-card.check_weather": "Zkontrolovat počasí",
     "common.copyright": "Autorská práva © ",
+    today: "Dnes",
 };

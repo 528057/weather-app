@@ -60,7 +60,7 @@ const Home = () => {
     }
 
     if (!postions || !location) {
-        return <PositionStatus id="loading" />;
+        return <PositionStatus id="common.loading" />;
     }
 
     return (
