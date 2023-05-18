@@ -16,6 +16,8 @@ import WelcomePage from "./pages/WelcomePage";
 import { Container, CssBaseline } from "@mui/material";
 import WeatherToolbar from "./components/WeatherToolbar";
 import { AuthContextProvider } from "./hooks/useLoggedInUser";
+import Weather from "./pages/Weather";
+import SavedLocations from "./pages/SavedLocations";
 
 const rootRoute = new RootRoute({
     component: () => {
@@ -51,13 +53,13 @@ const registerRoute = new Route({
 const savedLocationsRoute = new Route({
     getParentRoute: () => rootRoute,
     path: "/saved-locations",
-    component: RegisterPage,
+    component: SavedLocations,
 });
 
 const locationWeatherRoute = new Route({
     getParentRoute: () => rootRoute,
-    path: "/weather/$lat/$lon",
-    component: RegisterPage,
+    path: "/weather/$lat/$lon/$city",
+    component: Weather,
 });
 
 const notFoundRoute = new Route({

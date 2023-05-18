@@ -43,7 +43,32 @@ const SearchBar = () => {
     ) => {
         if (reason === "selectOption") {
             getGeocode({ address: value?.description }).then((results) => {
+                const regionName = results[0].address_components.find(
+                    (component) => {
+                        if (
+                            component.types.includes("locality") ||
+                            component.types.includes(
+                                "administrative_area_level_1"
+                            ) ||
+                            component.types.includes("country")
+                        ) {
+                            return component.long_name;
+                        }
+                        return null;
+                    }
+                )?.long_name;
+
                 const { lat, lng } = getLatLng(results[0]);
+
+                navigate({
+                    to: "/weather/$lat/$lon/$city",
+                    params: {
+                        lat: `${lat}`,
+                        lon: `${lng}`,
+                        city: regionName ?? "",
+                    },
+                    replace: true,
+                });
                 clearSuggestions();
             });
         }

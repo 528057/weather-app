@@ -84,6 +84,11 @@ const UserNav: React.FC = () => {
                 }}
             >
                 <MenuItem>
+                    <ButtonLink to="/saved-locations">
+                        <Typography textAlign="center">
+                            <LocalizeMessage id="saved-locations.title" />
+                        </Typography>
+                    </ButtonLink>
                     <Button onClick={signOut}>
                         <Typography textAlign="center">
                             <LocalizeMessage id="login.sign_out" />
