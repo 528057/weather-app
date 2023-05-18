@@ -4,7 +4,7 @@ import { Weather } from "../utils/types";
 
 type UseGetWeatherDataProps = WeatherDetailsProps;
 const API_KEY = "14ec80ae4e5248599bb00330231805";
-const API_URL = "http://api.weatherapi.com/v1/";
+const API_URL = "https://api.weatherapi.com/v1/";
 
 const useGetWeatherData = ({ lat, lng }: UseGetWeatherDataProps) => {
     const [weatherData, setWeatherData] = useState<Weather>();
