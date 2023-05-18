@@ -11,6 +11,7 @@ const SavedLocations = () => {
                 <PlaceCard
                     key={location.createdAt.nanoseconds}
                     location={location}
+                    isSaved
                 />
             ))}
         </Container>

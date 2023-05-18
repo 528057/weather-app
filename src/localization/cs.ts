@@ -21,5 +21,7 @@ export default {
     "error.not_found": "Nenalezeno",
     "error.not_exist_msg": "Oops, vypadá to, že tato stránka neexistuje",
     "weather.title": "Weather",
+    "home.positionDenied": "Position denied",
     "saved-locations.title": "Saved locations",
+    loading: "Načítání...",
 };

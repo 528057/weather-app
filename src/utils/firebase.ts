@@ -88,15 +88,18 @@ export const userSavedLocations = (userId: string) =>
 export const userSavedLocationDocument = (userId: string) =>
     doc(userSavedLocations(userId)) as DocumentReference<Location>;
 
-export const addSavedLocation = async (userId: string, location: Location) =>
-    await setDoc(
-        doc(userSavedLocationDocument(userId), location.city),
-        location
-    );
+export const addSavedLocation = async (
+    userId: string,
+    location: Omit<Location, "createdAt">
+) =>
+    await setDoc(doc(db, "users", userId, "favorites", location.city), {
+        ...location,
+        createdAt: Timestamp.now(),
+    });
 
 export const deleteSavedLocation = async (
     userId: string,
-    location: Location
+    location: Omit<Location, "createdAt">
 ) => {
-    await deleteDoc(doc(userSavedLocationDocument(userId), location.city));
+    await deleteDoc(doc(db, "users", userId, "favorites", location.city));
 };
