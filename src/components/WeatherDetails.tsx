@@ -33,8 +33,8 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
         <Container>
             <Grid container justifyContent="center" alignItems="center">
                 <Grid item md={8} lg={6} xl={4}>
-                    <Typography variant="h6" className="flex-grow-1">
-                        <LocalizeMessage id="weather-details.today" />
+                    <Typography variant="h2" className="flex-grow-1">
+                        {data.location.name}
                     </Typography>
                     {user && (
                         <SaveIcon

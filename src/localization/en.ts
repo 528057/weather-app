@@ -30,5 +30,6 @@ export default {
     "common.longitude": "Longitude",
     "place-card.check_weather": "Check weather",
     "common.copyright": "Copyright © ",
+    "signup.success":"Registration successful!",
     today: "Today",
 };
