@@ -18,8 +18,9 @@ const Weather = () => {
     });
 
     return (
-        <Container component="main">
-            <h1>{t("weather.title")}</h1>
+        <Container component="main" style={{
+            marginTop:"60px"
+        }}>
             <WeatherDetails {...params} />
         </Container>
     );

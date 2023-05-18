@@ -73,13 +73,13 @@ const WeatherToolbar = () => {
     const user = useLoggedInUser();
 
     return (
-        <AppBar position="fixed" color="transparent" style={{ top: 0, width: "100%" }}>
+        <AppBar position="fixed" style={{ top: 0, width: "100%" }}>
             <Container>
                 <Toolbar disableGutters>
                     <Link to="/">
                         <LogoTitle
                             width="150px"
-                            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+                            sx={{ display: { xs: "none", md: "flex",zIndex:999 }, mr: 1 }}
                         />
                     </Link>
                     <SearchBar />

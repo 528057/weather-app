@@ -24,7 +24,7 @@ export default {
     "home.positionDenied": "Pozice odepřena",
     "common.loading": "Načítání...",
     "weather-details.today": "Dnešní počasí",
-    "weather-details.forecast": "Předpověď na příštích 7 dní",
+    "weather-details.forecast": "Předpověď pro dalších 7 dní",
     "common.latitude": "zeměpisná šířka",
     "common.longitude": "zeměpisná délka",
     "place-card.check_weather": "Zkontrolovat počasí",
