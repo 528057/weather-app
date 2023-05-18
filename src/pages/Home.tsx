@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import WeatherDetails, {
     WeatherDetailsProps,
 } from "../components/WeatherDetails";
+import LogoTitle from "../components/LogoTitle";
 
 type PositionStatusProps = {
     id: LocalizationKeys;
@@ -60,7 +61,7 @@ const Home = () => {
     }
 
     if (!postions || !location) {
-        return <PositionStatus id="common.loading" />;
+        return <LogoTitle />;
     }
 
     return (
