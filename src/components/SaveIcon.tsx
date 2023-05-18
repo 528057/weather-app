@@ -1,4 +1,4 @@
-import { Save } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 import { IconButton, useTheme } from "@mui/material";
 import useLoggedInUser from "../hooks/useLoggedInUser";
 import {
@@ -26,7 +26,7 @@ const SaveIcon = ({ isSaved = false, location }: SaveIconProps) => {
     };
     return (
         <IconButton disabled={!user?.uid} onClick={handleSaveClick}>
-            <Save
+            <Favorite
                 style={{
                     color: isSaved
                         ? theme.palette.primary.main

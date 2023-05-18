@@ -23,5 +23,7 @@ export default {
     "weather.title": "Weather",
     "home.positionDenied": "Position denied",
     "saved-locations.title": "Saved locations",
+    "forecast.next_7_days": "Předpověď pro dalších 7 dní",
+    "today": "Dnes",
     loading: "Načítání...",
 };

@@ -3,6 +3,9 @@ import useGetWeatherData from "../hooks/useGetWeatherData";
 import WeatherCard from "./WeatherCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { parseForecastToCard, parseCurrentToCard } from "../utils/parsers";
+import { useTranslation } from "../hooks/useTranslation";
+import SaveIcon from "./SaveIcon";
+import useLoggedInUser from "../hooks/useLoggedInUser";
 
 export type WeatherDetailsProps = {
     lat: number;
@@ -13,6 +16,8 @@ export type WeatherDetailsProps = {
 // eslint-disable-next-line react-refresh/only-export-components
 const WeatherDetails = (props: WeatherDetailsProps) => {
     const { data } = useGetWeatherData(props);
+    const user = useLoggedInUser();
+    const t = useTranslation();
 
     const forcast = useMemo(() => {
         if (!data?.forecast.forecastday) {
@@ -29,23 +34,33 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
         <Container>
             <Grid container justifyContent="center" alignItems="center">
                 <Grid item md={8} lg={6} xl={4}>
-                    <Typography variant="h6" className="flex-grow-1">
-                        Today's Weather
+                    <Typography variant="h2" className="flex-grow-1">
+                        {data.location.name}
                     </Typography>
+                    {user && (
+                        <SaveIcon
+                            isSaved={false}
+                            location={{
+                                city: props.city,
+                                lat: props.lat,
+                                lng: props.lng,
+                            }}
+                        />
+                    )}
                     <WeatherCard
                         {...parseCurrentToCard(data.current, data.location)}
-                        showSaveIcon
+                        today
                     />
                 </Grid>
             </Grid>
 
             <Typography variant="h6" className="flex-grow-1">
-                Forecast for the next 7 days
+                {t("forecast.next_7_days")}
             </Typography>
             <Grid container justifyContent="center" alignItems="center">
                 {forcast.map((day, index) => (
                     <Grid item md={8} lg={6} xl={4} key={index}>
-                        <WeatherCard {...day} showSaveIcon={false} />
+                        <WeatherCard {...day} />
                     </Grid>
                 ))}
             </Grid>

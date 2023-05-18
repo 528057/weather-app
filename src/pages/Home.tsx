@@ -25,7 +25,7 @@ const PositionStatus = ({ id }: PositionStatusProps) => {
                     alignItems: "center",
                 }}
             >
-                <Typography component="h1" variant="h1">
+                <Typography component="h1" variant="h2">
                     <LocalizeMessage id={id} />
                 </Typography>
             </Box>
