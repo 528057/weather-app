@@ -2,15 +2,14 @@
 
 **Team members**: Muhammad Awais (528057), Martin Bartos (506502)
 
-**Repository url**: <url>
+**Repository url**: https://github.com/528057/weather-app
 
-**Deploy url**:  <url>
- 
-**Seminar group**:  02, 01
+**Deploy url**: https://weather-app-pi-rouge.vercel.app/
 
-The projet will be a weather app that displays current and upcoming weather conditions for any location. Users can search by name or ZIP code, and view details such as temperature, humidity, and more. The app could also allow users to search for historic weather data by selecting a specific date.
+**Seminar group**: 02, 01
 
+The project is focused on a weather app that displays any location's current and upcoming weather conditions. Users can search by name or ZIP code and view details such as temperature, humidity, etc. The app also allows users to login/signup and save the location they want to check again.
 
-# WiP - actual state
 ## Sign in page
+
 <img src="./docs/img/signin.png">
