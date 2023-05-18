@@ -23,5 +23,11 @@ export default {
     "weather.title": "Weather",
     "saved-locations.title": "Saved locations",
     "home.positionDenied": "Position denied",
-    loading: "Loading...",
+    "common.loading": "Loading...",
+    "weather-details.today": "Today's weather",
+    "weather-details.forecast": "Forecast for the next 7 days",
+    "common.latitude": "Latitude",
+    "common.longitude": "Longitude",
+    "place-card.check_weather": "Check weather",
+    "common.copyright": "Copyright © ",
 };

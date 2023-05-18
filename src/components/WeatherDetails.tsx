@@ -3,6 +3,7 @@ import useGetWeatherData from "../hooks/useGetWeatherData";
 import WeatherCard from "./WeatherCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { parseForecastToCard, parseCurrentToCard } from "../utils/parsers";
+import LocalizeMessage from "./LocalizeMessage";
 
 export type WeatherDetailsProps = {
     lat: number;
@@ -30,7 +31,7 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
             <Grid container justifyContent="center" alignItems="center">
                 <Grid item md={8} lg={6} xl={4}>
                     <Typography variant="h6" className="flex-grow-1">
-                        Today's Weather
+                        <LocalizeMessage id="weather-details.today" />
                     </Typography>
                     <WeatherCard
                         {...parseCurrentToCard(data.current, data.location)}
@@ -40,7 +41,7 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
             </Grid>
 
             <Typography variant="h6" className="flex-grow-1">
-                Forecast for the next 7 days
+                <LocalizeMessage id="weather-details.forecast" />
             </Typography>
             <Grid container justifyContent="center" alignItems="center">
                 {forcast.map((day, index) => (
