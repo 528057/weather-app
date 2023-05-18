@@ -2,6 +2,7 @@ import { Typography, Card, CardContent, CardActions } from "@mui/material";
 import ButtonLink from "./ButtonLink";
 import { Location } from "../utils/firebase";
 import SaveIcon from "./SaveIcon";
+import LocalizeMessage from "./LocalizeMessage";
 
 type FavouritePlaceProps = {
     location: Location;
@@ -26,10 +27,10 @@ const PlaceCard = ({ location, isSaved = false }: FavouritePlaceProps) => {
                     <SaveIcon isSaved={isSaved} location={location} />
                 </div>
                 <Typography variant="body1">
-                    Latitude: {location.lat}
+                    <LocalizeMessage id="common.latitude" />: {location.lat}
                 </Typography>
                 <Typography variant="body1">
-                    Longitude: {location.lng}
+                    <LocalizeMessage id="common.longitude" />: {location.lng}
                 </Typography>
             </CardContent>
             <CardActions>
@@ -43,7 +44,7 @@ const PlaceCard = ({ location, isSaved = false }: FavouritePlaceProps) => {
                     size="small"
                     color="primary"
                 >
-                    Check Weather
+                    <LocalizeMessage id="place-card.check_weather" />
                 </ButtonLink>
             </CardActions>
         </Card>

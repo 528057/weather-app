@@ -7,7 +7,7 @@ import WeatherDetails from "../components/WeatherDetails";
 
 const Weather = () => {
     const t = useTranslation();
-    usePageTitle(t("weather.title"));
+    usePageTitle("weather.title");
     const params = useParams({
         from: "/weather/$lat/$lng/$city",
         track: (params) => ({

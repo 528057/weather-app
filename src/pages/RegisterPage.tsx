@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import { useTranslation } from "../hooks/useTranslation";
 import Copyright from "../components/Copyright";
 import LogoTitle from "../components/LogoTitle";
 import usePageTitle from "../hooks/usePageTitle";
@@ -14,6 +13,7 @@ import { signUp, updateProfile } from "../utils/firebase";
 import { UserCredential } from "firebase/auth";
 import useLoggedInUser from "../hooks/useLoggedInUser";
 import { useNavigate } from "@tanstack/react-router";
+import LocalizeMessage from "../components/LocalizeMessage";
 
 type RegisterFormData = {
     name: string;
@@ -23,12 +23,11 @@ type RegisterFormData = {
 };
 
 export default function RegisterPage() {
-    const t = useTranslation();
     const { handleSubmit, control, getValues } = useForm<RegisterFormData>();
     const navigate = useNavigate();
     const user = useLoggedInUser();
 
-    usePageTitle(t("login.sign_up"));
+    usePageTitle("login.sign_up");
 
     const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
         signUp(data.email, data.password).then((user: UserCredential) => {
@@ -59,7 +58,7 @@ export default function RegisterPage() {
             >
                 <LogoTitle />
                 <Typography component="h1" variant="h5">
-                    {t("login.sign_up")}
+                    <LocalizeMessage id="login.sign_up" />
                 </Typography>
                 <Box
                     component="form"
@@ -113,7 +112,7 @@ export default function RegisterPage() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {t("login.sign_up")}
+                        <LocalizeMessage id="login.sign_up" />
                     </Button>
                 </Box>
             </Box>

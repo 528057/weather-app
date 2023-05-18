@@ -3,7 +3,7 @@ import useGetWeatherData from "../hooks/useGetWeatherData";
 import WeatherCard from "./WeatherCard";
 import { Container, Grid, Typography } from "@mui/material";
 import { parseForecastToCard, parseCurrentToCard } from "../utils/parsers";
-import { useTranslation } from "../hooks/useTranslation";
+import LocalizeMessage from "./LocalizeMessage";
 import SaveIcon from "./SaveIcon";
 import useLoggedInUser from "../hooks/useLoggedInUser";
 
@@ -17,7 +17,6 @@ export type WeatherDetailsProps = {
 const WeatherDetails = (props: WeatherDetailsProps) => {
     const { data } = useGetWeatherData(props);
     const user = useLoggedInUser();
-    const t = useTranslation();
 
     const forcast = useMemo(() => {
         if (!data?.forecast.forecastday) {
@@ -34,8 +33,8 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
         <Container>
             <Grid container justifyContent="center" alignItems="center">
                 <Grid item md={8} lg={6} xl={4}>
-                    <Typography variant="h2" className="flex-grow-1">
-                        {data.location.name}
+                    <Typography variant="h6" className="flex-grow-1">
+                        <LocalizeMessage id="weather-details.today" />
                     </Typography>
                     {user && (
                         <SaveIcon
@@ -55,7 +54,7 @@ const WeatherDetails = (props: WeatherDetailsProps) => {
             </Grid>
 
             <Typography variant="h6" className="flex-grow-1">
-                {t("forecast.next_7_days")}
+                <LocalizeMessage id="weather-details.forecast" />
             </Typography>
             <Grid container justifyContent="center" alignItems="center">
                 {forcast.map((day, index) => (

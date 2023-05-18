@@ -1,19 +1,23 @@
-import { Typography } from "@mui/material";
-import { useTranslation } from "../hooks/useTranslation";
+import { Typography, TypographyTypeMap } from "@mui/material";
+import { DefaultComponentProps } from "@mui/types";
+import LocalizeMessage from "./LocalizeMessage";
 
-export default function Copyright(props: any) {
-    const t = useTranslation();
-  
+type CopyrightProps = DefaultComponentProps<
+    TypographyTypeMap<Record<string, unknown>, "span">
+>;
+
+const Copyright = (props: CopyrightProps) => {
     return (
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        align="center"
-        {...props}
-      >
-        {"Copyright © "}
-        {t("app.title")} {new Date().getFullYear()}
-        {"."}
-      </Typography>
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+            {...props}
+        >
+            <LocalizeMessage id="common.copyright" />
+            <LocalizeMessage id="app.title" /> {new Date().getFullYear()}
+        </Typography>
     );
-  }
+};
+
+export default Copyright;

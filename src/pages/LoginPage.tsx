@@ -17,6 +17,7 @@ import FormInput from "../components/form/FormInput";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import useLoggedInUser from "../hooks/useLoggedInUser";
+import LocalizeMessage from "../components/LocalizeMessage";
 
 type LoginFormData = {
     email: string;
@@ -30,7 +31,7 @@ const LoginPage = () => {
     const { control, handleSubmit } = useForm<LoginFormData>();
     const navigate = useNavigate();
 
-    usePageTitle(t("login.sign_in"));
+    usePageTitle("login.sign_in");
 
     const onSubmit = (data: LoginFormData) => {
         signIn(data.email, data.password, data.rememberMe).then((user) => {
@@ -64,7 +65,7 @@ const LoginPage = () => {
             >
                 <LogoTitle />
                 <Typography component="h1" variant="h5">
-                    {t("login.sign_in")}
+                    <LocalizeMessage id="login.sign_in" />
                 </Typography>
                 <Box
                     component="form"
@@ -117,17 +118,17 @@ const LoginPage = () => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {t("login.sign_in")}
+                        <LocalizeMessage id="login.sign_in" />
                     </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
-                                {t("login.forgot_password")}
+                                <LocalizeMessage id="login.forgot_password" />
                             </Link>
                         </Grid>
                         <Grid item>
                             <Link href="/register" variant="body2">
-                                {t("login.no_account")}
+                                <LocalizeMessage id="login.no_account" />
                             </Link>
                         </Grid>
                     </Grid>

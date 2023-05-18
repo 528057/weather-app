@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 import usePageTitle from "../hooks/usePageTitle";
-import { LocalizationKeys, useTranslation } from "../hooks/useTranslation";
+import { LocalizationKeys } from "../hooks/useTranslation";
 import useUserLocation from "../hooks/useUserLocation";
 import LocalizeMessage from "../components/LocalizeMessage";
 import useGetPositionFromApi from "../hooks/useGetPositionFromApi";
@@ -34,8 +34,7 @@ const PositionStatus = ({ id }: PositionStatusProps) => {
 };
 
 const Home = () => {
-    const t = useTranslation();
-    usePageTitle(t("app.title"));
+    usePageTitle("app.title");
     const { postions, status } = useUserLocation();
     const [location, setLocation] = useState<WeatherDetailsProps>();
     const { onAddressSubmit } = useGetPositionFromApi();
@@ -61,7 +60,7 @@ const Home = () => {
     }
 
     if (!postions || !location) {
-        return <PositionStatus id="loading" />;
+        return <PositionStatus id="common.loading" />;
     }
 
     return (
