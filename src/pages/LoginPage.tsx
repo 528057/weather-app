@@ -7,6 +7,9 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import { useState } from "react";
 
 import { useTranslation } from "../hooks/useTranslation";
 import Copyright from "../components/Copyright";
@@ -30,18 +33,26 @@ const LoginPage = () => {
     const user = useLoggedInUser();
     const { control, handleSubmit } = useForm<LoginFormData>();
     const navigate = useNavigate();
+    const [alert, setAlert] = useState<{
+        type: "error" | "success";
+        message: string;
+    } | null>(null);
 
     usePageTitle("login.sign_in");
 
     const onSubmit = (data: LoginFormData) => {
-        signIn(data.email, data.password, data.rememberMe).then((user) => {
-            if (user) {
-                navigate({
-                    to: "/",
-                    replace: true, // the user can't come back to the login page
-                });
-            }
-        });
+        signIn(data.email, data.password, data.rememberMe)
+            .then((user) => {
+                if (user) {
+                    navigate({
+                        to: "/",
+                        replace: true, // the user can't come back to the login page
+                    });
+                }
+            })
+            .catch((error) => {
+                setAlert({ type: "error", message: error.message });
+            });
     };
 
     if (user) {
@@ -53,89 +64,105 @@ const LoginPage = () => {
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
-            >
-                <LogoTitle />
-                <Typography component="h1" variant="h5">
-                    <LocalizeMessage id="login.sign_in" />
-                </Typography>
+        <>
+            {alert && (
+                <Alert severity={alert.type} sx={{ mt: 2 }}>
+                    <AlertTitle>
+                        {alert.type === "error" ? "Error" : "Success"}
+                    </AlertTitle>
+                    {alert.message}
+                </Alert>
+            )}
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
                 <Box
-                    component="form"
-                    onSubmit={handleSubmit(onSubmit)}
-                    noValidate
-                    sx={{ mt: 1 }}
+                    sx={{
+                        marginTop: 8,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
                 >
-                    <FormInput
-                        name="email"
-                        control={control}
-                        label="login.email"
-                        rules={{ required: true, pattern: /^\S+@\S+$/i }}
-                        type="email"
-                    />
-
-                    <FormInput
-                        name="password"
-                        control={control}
-                        label="login.password"
-                        rules={{ required: true, minLength: 6, maxLength: 20 }}
-                        type="password"
-                    />
-
-                    <Controller
-                        name="rememberMe"
-                        control={control}
-                        render={({ field: { name, onChange, value } }) => {
-                            return (
-                                <FormControlLabel
-                                    id={name}
-                                    name={name}
-                                    control={
-                                        <Checkbox
-                                            value={value}
-                                            color="primary"
-                                            onChange={(event) =>
-                                                onChange(!!event.target.checked)
-                                            }
-                                        />
-                                    }
-                                    label={t("login.remember_me")}
-                                />
-                            );
-                        }}
-                    />
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
+                    <LogoTitle />
+                    <Typography component="h1" variant="h5">
                         <LocalizeMessage id="login.sign_in" />
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                <LocalizeMessage id="login.forgot_password" />
-                            </Link>
+                    </Typography>
+                    <Box
+                        component="form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        noValidate
+                        sx={{ mt: 1 }}
+                    >
+                        <FormInput
+                            name="email"
+                            control={control}
+                            label="login.email"
+                            rules={{ required: true, pattern: /^\S+@\S+$/i }}
+                            type="email"
+                        />
+
+                        <FormInput
+                            name="password"
+                            control={control}
+                            label="login.password"
+                            rules={{
+                                required: true,
+                                minLength: 6,
+                                maxLength: 20,
+                            }}
+                            type="password"
+                        />
+
+                        <Controller
+                            name="rememberMe"
+                            control={control}
+                            render={({ field: { name, onChange, value } }) => {
+                                return (
+                                    <FormControlLabel
+                                        id={name}
+                                        name={name}
+                                        control={
+                                            <Checkbox
+                                                value={value}
+                                                color="primary"
+                                                onChange={(event) =>
+                                                    onChange(
+                                                        !!event.target.checked
+                                                    )
+                                                }
+                                            />
+                                        }
+                                        label={t("login.remember_me")}
+                                    />
+                                );
+                            }}
+                        />
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            <LocalizeMessage id="login.sign_in" />
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+                                    <LocalizeMessage id="login.forgot_password" />
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="/register" variant="body2">
+                                    <LocalizeMessage id="login.no_account" />
+                                </Link>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <Link href="/register" variant="body2">
-                                <LocalizeMessage id="login.no_account" />
-                            </Link>
-                        </Grid>
-                    </Grid>
+                    </Box>
                 </Box>
-            </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </>
     );
 };
 
