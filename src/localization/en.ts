@@ -23,5 +23,8 @@ export default {
     "weather.title": "Weather",
     "saved-locations.title": "Saved locations",
     "home.positionDenied": "Position denied",
+
+    "forecast.next_7_days": "Forecast for the next 7 days",
+    "today": "Today",
     loading: "Loading...",
 };

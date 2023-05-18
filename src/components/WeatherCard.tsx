@@ -8,11 +8,11 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { WindPower, Opacity } from "@mui/icons-material";
-import SaveIcon from "./SaveIcon";
+import { useTranslation } from "../hooks/useTranslation";
 
 const WeatherCardStyle = styled(Card)(({ theme }) => ({
     color: theme.palette.text.primary,
-    borderRadius: "35px",
+    borderRadius: "15px",
 }));
 
 export type WeatherCardProps = {
@@ -25,14 +25,28 @@ export type WeatherCardProps = {
     icon: string;
     lat: number;
     lng: number;
-    showSaveIcon?: boolean;
+    today?: boolean;
 };
 
 const WeatherCard = (props: WeatherCardProps) => {
+    const formattedDate = new Date(props.date);
+    const time = formattedDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+    const day = formattedDate.getDate();
+    const month = formattedDate.getMonth() + 1; // Months are zero-based, so we add 1
+    const finalDate = `${day}.${month}`;
+
+    const t = useTranslation();
+
     return (
         <Container
             style={{
                 padding: "15px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
             }}
         >
             <Grid container justifyContent="center" alignItems="center">
@@ -40,26 +54,13 @@ const WeatherCard = (props: WeatherCardProps) => {
                     <CardContent className="p-4">
                         <Box
                             style={{
-                                display: "flex",
                                 justifyContent: "space-between",
                             }}
                         >
-                            <Typography variant="h6" className="flex-grow-1">
-                                {props.city}
+                            <Typography variant="h4">
+                                {props.today ? t("today") : finalDate}
                             </Typography>
-                            <Typography variant="h6">
-                                {props.date}
-                                {props.showSaveIcon && (
-                                    <SaveIcon
-                                        isSaved={false}
-                                        location={{
-                                            city: props.city,
-                                            lat: props.lat,
-                                            lng: props.lng,
-                                        }}
-                                    />
-                                )}
-                            </Typography>
+                            <Typography variant="h6">{time}</Typography>
                         </Box>
 
                         <Box
@@ -118,7 +119,7 @@ const WeatherCard = (props: WeatherCardProps) => {
                                 <img
                                     src={props.icon}
                                     alt="weather"
-                                    width="100px"
+                                    width="70px"
                                 />
                             </Grid>
                         </Grid>
